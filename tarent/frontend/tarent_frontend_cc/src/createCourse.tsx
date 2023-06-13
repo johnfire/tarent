@@ -1,4 +1,4 @@
-import React, {useState, useEffect, ChangeEvent, MouseEvent, MouseEventHandler, SyntheticEvent } from 'react'
+import React, {useState, useEffect, ChangeEvent, MouseEvent } from 'react'
 import axios from 'axios';
 
 interface classForm {
@@ -13,7 +13,6 @@ interface classForm {
 
 const CreateCourseWidget = () => {
     
-    console.log("entered createCorse widget");
     const [newCourseName ,setNewCourseName] =  useState<string>('')
     const [newStartTime, setNewStartTime] = useState<string>('')
     const [newEndTime,setNewEndTime] = useState<string>('')
@@ -27,14 +26,13 @@ const CreateCourseWidget = () => {
     
 
     useEffect( () => {
-        axios.get(`http://127.0.0.1:8000/test/sendIds/`).then(res => 
-            { console.log("here is the data", res.data.data)
+        axios.get(`http://127.0.0.1:8000/test/sendIds/`).then(res => { 
               return res.data.data
             }
         ).then(
         setArrayOfIds
-        ).catch( function (error ){
-            console.log("there is a problem ", error )
+        ).catch( function (error){
+            console.log("There is a problem ", error)
         })
         setDataSent(false)
     },[dataSent])
@@ -80,21 +78,15 @@ const CreateCourseWidget = () => {
         axios.post(`http://127.0.0.1:8000/test/`, { 
             data: newForm 
         }).then(res => {
-            console.log('we got it', res)
-            console.log("status shoudl be" , res.status)
             setDataSent(!dataSent)
             if(res.status === 201 ){
-                // console.log( "qwhat are we starting with ", arrayOfIds)
-                // const newArray  = [...arrayOfIds, newId]
-                // console.log("what is new array here !!!!!!!!!!!", newArray, arrayOfIds)
-                // arrayOfIds = newArray
                 setNewCourseName("")
                 setNewStartTime("")
                 setNewEndTime("")
                 setNewDate("")
           }
-        }).catch( function (error ){
-            console.log("there is an error: ", error )
+        }).catch( function (error){
+            console.log("There is an error: ", error )
         })
     }
 
@@ -111,14 +103,8 @@ const CreateCourseWidget = () => {
         axios.put(`http://127.0.0.1:8000/test/modifyCourse/`, { 
             data: newForm 
         }).then(res => {
-          console.log('we got it', res)
-          console.log("status should be" , res.status)
           setDataSent(!dataSent)
           if(res.status === 201 ){
-            // console.log( "qwhat are we starting with ", arrayOfIds)
-            // const newArray  = [...arrayOfIds, newId]
-            // console.log("what is new array here !!!!!!!!!!!", newArray, arrayOfIds)
-            // arrayOfIds = newArray
             setNewCourseName("")
             setNewStartTime("")
             setNewEndTime("")
@@ -130,12 +116,10 @@ const CreateCourseWidget = () => {
     }
 
     const handleLoadData = (event: MouseEvent<HTMLElement >) => {
-        console.log("load data function ")
         const result  = event.target as HTMLElement
         const attr = result.getAttribute("value")
-        const dataToLoad = arrayOfIds.filter(item => item.courseId ===  attr )
-        const classData= dataToLoad[0]
-        console.log(" here is the data to load", dataToLoad)
+        const dataToLoad = arrayOfIds.filter(item => item.courseId === attr)
+        const classData = dataToLoad[0]
         setId(classData.courseId)
         setNewCourseName(classData.courseName)
         setNewStartTime(classData.startTime)
@@ -146,7 +130,6 @@ const CreateCourseWidget = () => {
     }
 
     const handleRemoveData = () => {
-       
         setId("")
         setNewCourseName("")
         setNewStartTime("")
@@ -156,18 +139,15 @@ const CreateCourseWidget = () => {
         setModifyCourseEnable(true)
     }
 
-    console.log(" ids are" , arrayOfIds)
-
     return (   
         <div>
-            <p> erstellen oder ändern ein neue Kurs: </p>
+            <p> Erstellen oder ändern ein neue Kurs: </p>
             <form>
                 <div>
                     ID  |  Kurs Name  |  Kurs Startzeit  |  Kurs EndZeit  |  Kurs Datum 
                 </div>
                  <div>
                     {arrayOfIds?.map(item => {
-                        console.log("here is the item ", item )
                         return (<div key={item.courseId}> 
                                 <button type="button" value={item.courseId} onClick={handleLoadData}>{item.courseId} </button> &nbsp;
                                 {item.courseName} &nbsp;

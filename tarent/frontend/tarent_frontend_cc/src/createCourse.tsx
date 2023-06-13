@@ -26,7 +26,7 @@ const CreateCourseWidget = () => {
     
 
     useEffect( () => {
-        axios.get(`http://127.0.0.1:8000/test/sendIds/`).then(res => { 
+        axios.get(`http://127.0.0.1:8000/test/v1/mv1/both/AllClasses/`).then(res => { 
               return res.data.data
             }
         ).then(
@@ -75,7 +75,7 @@ const CreateCourseWidget = () => {
             date: newDate,
         };
 
-        axios.post(`http://127.0.0.1:8000/test/`, { 
+        axios.post(`http://127.0.0.1:8000/test/v1/mv1/school/createClass/`, { 
             data: newForm 
         }).then(res => {
             setDataSent(!dataSent)
@@ -100,7 +100,7 @@ const CreateCourseWidget = () => {
             date: newDate,
         };
 
-        axios.put(`http://127.0.0.1:8000/test/modifyCourse/`, { 
+        axios.put(`http://127.0.0.1:8000/test/v1/mv1/school/modifyClass/`, { 
             data: newForm 
         }).then(res => {
           setDataSent(!dataSent)

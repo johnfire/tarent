@@ -4,3 +4,6 @@ from django.test import TestCase
 
 def smokeTest():
     assert(sum[1,2,3]) == 6
+
+
+# 

@@ -34,17 +34,14 @@ def createClass(request):
         'endTime': finaldata['endTime'],
         'date' : finaldata['date']
     }
-    print("finaldata test ", classToSave)
     classDataArray.append(classToSave)
     classIdsArray.append(finaldata['id'])
-    print('here is the classDataArray', classDataArray)
     return HttpResponse(status=201, headers=allowAll)
   else:
     return HttpResponse(status=400, headers=allowAll)
   
 @csrf_exempt     
 def modifyClass(request):
-  print("entered modify class here is current array", classDataArray )
   if request.method == 'PUT':
     data = json.loads(request.body.decode())
     finaldata = data['data']
@@ -55,19 +52,9 @@ def modifyClass(request):
       'endTime': finaldata['endTime'],
       'date' : finaldata['date']
     }
-    print("finaldata test modify", classToModify)
-    print("before the search", classDataArray)
-    classindex = next((index for (index, d) in enumerate(classDataArray) if d["courseId"] ==finaldata['id'] ), None)
-    print("index is ", classindex)
+    classindex = next((index for (index, d) in enumerate(classDataArray) if d["courseId"] == finaldata['id'] ), None)
     classDataArray.pop(classindex)
     classDataArray.append(classToModify)
-    print("here is the array after empty", classDataArray)
-    
-    # for i in range(1, len(tempArray)):
-    #   classDataArray.append(i)
-    #classDataArray.append(classToModify)
-
-    print('here is the classDataArray after mod', classDataArray)
     return HttpResponse(status=201, headers=allowAll)
   else:
     return HttpResponse(status=400, headers=allowAll)
